@@ -34,4 +34,14 @@ app.post("/musicians", async (req, res, next) => {
   }
 });
 
+app.put("/musicians/:id", async (req, res, next) => {
+  try {
+    const newMusician = await Musician.update(req.body, {
+      where: { id: req.params.id },
+    });
+    res.json(newMusician);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = app;
