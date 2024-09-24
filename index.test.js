@@ -28,4 +28,39 @@ describe("./musicians endpoint", () => {
     expect(response.statusCode).toBe(200);
     expect(musician).toHaveProperty("name");
   });
+
+  test("Testing creating a new musician", async () => {
+    const newMusician = {
+      name: "Peso Pluma",
+      instrument: "Vocals",
+    };
+
+    const response = await request(app).post("/musicians").send(newMusician);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty("id");
+    expect(response.body.name).toBe(newMusician.name);
+    expect(response.body.instrument).toBe(newMusician.instrument);
+  });
+
+  test("Testing updating a musician", async () => {
+    const updatedMusician = {
+      name: "Bad Bunny",
+      instrument: "Vocals",
+    };
+
+    const response = await request(app)
+      .put("/musicians/1")
+      .send(updatedMusician);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.name).toBe(updatedMusician.name);
+    expect(response.body.instrument).toBe(updatedMusician.instrument);
+  });
+
+  test("Testing delete a musician", async () => {
+    const response = await request(app).delete("/musicians/1");
+
+    expect(response.statusCode).toBe(200);
+  });
 });
