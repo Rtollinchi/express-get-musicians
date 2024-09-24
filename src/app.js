@@ -44,4 +44,15 @@ app.put("/musicians/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+app.delete("/musicians/:id", async (req, res, next) => {
+  try {
+    const deleteMusician = await Musician.destroy({
+      where: { id: req.params.id },
+    });
+    res.json(deleteMusician);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = app;
