@@ -20,4 +20,12 @@ describe("./musicians endpoint", () => {
     expect(Array.isArray(responseData)).toBe(true);
     expect(responseData.length).toBeGreaterThan(0);
   });
+
+  test("Tesing finding musician by id", async () => {
+    const response = await request(app).get("/musicians/1");
+    const musician = JSON.parse(response.text);
+
+    expect(response.statusCode).toBe(200);
+    expect(musician).toHaveProperty("name");
+  });
 });
