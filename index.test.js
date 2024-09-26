@@ -43,6 +43,24 @@ describe("./musicians endpoint", () => {
     expect(response.body.instrument).toBe(newMusician.instrument);
   });
 
+  test("Should return an error if name field is missing", async () => {
+    const response = await request(app).post("/musicians").send({
+      name: "",
+      instrument: "Vocals",
+    });
+
+    expect(response.body.error[0].msg).toBe("Invalid value");
+  });
+
+  test("Should return an error if instrument field is missing", async () => {
+    const response = await request(app).post("/musicians").send({
+      name: "Frueza Regida",
+      instrument: "",
+    });
+
+    expect(response.body.error[0].msg).toBe("Invalid value");
+  });
+
   test("Testing updating a musician", async () => {
     const updatedMusician = {
       name: "Bad Bunny",
